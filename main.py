@@ -1,60 +1,58 @@
 from selenium import webdriver
-from selenium.webdriver.support.select import Select
 import time
+from selenium.webdriver.support.select import Select
 
 driver = webdriver.Chrome()
 driver.maximize_window()
+driver.get("http://demo.automationtesting.in/Register.html")
 
-# Логин
-driver.get("https://opensource-demo.orangehrmlive.com/")
-login = driver.find_element_by_id("txtUsername")
-login.send_keys("Admin")
-password = driver.find_element_by_id("txtPassword")
-password.send_keys("admin123")
-login_btn = driver.find_element_by_id("btnLogin")
-login_btn.click()
-# Переход в PIM в карточку пользователя
-Pim = driver.find_element_by_id('menu_pim_viewPimModule')
-Pim.click()
+# Заполнение всех полей
+first_name = driver.find_element_by_xpath("//input[@placeholder='First Name']")
+first_name.send_keys("John")
+last_name = driver.find_element_by_xpath("//input[@placeholder='Last Name']")
+last_name.send_keys("Snow")
+email = driver.find_element_by_css_selector("#eid > input") # или //input[@ng-model="EmailAdress"]
+email.send_keys("123@mail.ru")
+phone = driver.find_element_by_css_selector("div:nth-child(4) > div > input") # или //input[@ng-model="Phone"]
+phone.send_keys("1237777777") # номер телефона может отличаться
+gender = driver.find_element_by_xpath("//input[@value='Male']")
+gender.click()
+# Заполнение селекторов country, date of birth
+country = driver.find_element_by_id("countries")
+select = Select(country)
+select.select_by_value("Denmark")
+date_of_birth_year = driver.find_element_by_id("yearbox")
+select_year = Select(date_of_birth_year)
+select_year.select_by_value("1990")
+date_of_birth_month = driver.find_element_by_css_selector("div:nth-child(3) > select")
+select_month = Select(date_of_birth_month)
+select_month.select_by_value("January")
+date_of_birth_day = driver.find_element_by_id("daybox")
+select_day = Select(date_of_birth_day)
+select_day.select_by_value("10")
+# Заполнение пароля
+password = driver.find_element_by_id("firstpassword")
+password.send_keys("123456aA")
+password_confirm = driver.find_element_by_id("secondpassword")
+password_confirm.send_keys("123456aA")
+# Загрузка файла
+file = ("C:\doc.txt")
+file_upload = driver.find_element_by_id("imagesrc")
+file_upload.send_keys(file)
+# Скролл страницы и подтверждение регистрации
+driver.execute_script("window.scrollBy(0, 300);")
+submit_btn = driver.find_element_by_id("submitbtn")
+submit_btn.click()
+# Проверка что что произошёл переход на ожидаемый адрес страницы
 time.sleep(3)
-employee_peter = driver.find_element_by_link_text("Peter Mac")
-employee_peter.click()
-time.sleep(1)
-# Проверка недоступности радиокнопки 
-gender_male = driver.find_element_by_id("personal_optGender_2")
-gender_male_disabled = gender_male.get_attribute("disabled")
-if gender_male_disabled is not None:
-    print("Селектор недоступен для выбора")
+current_page = driver.current_url
+assert current_page == "http://demo.automationtesting.in/WebTable.html"
+# Расширенная проверка адреса
+expected_address = "http://demo.automationtesting.in/WebTable.html"
+if current_page == "http://demo.automationtesting.in/WebTable.html": # или == expected_address
+    print("Адрес страницы совпадает")
 else:
-    print("Селектор доступен для выбора")
-# Проверка недоступности селектора
-nationality_selector = driver.find_element_by_id("personal_cmbNation")
-nationality_selector_disabled = nationality_selector.get_attribute("disabled")
-if nationality_selector_disabled is not None:
-    print("Селектор недоступен для выбора")
-else:
-    print("Селектор доступен для выбора")
-# Режим редактирования пользователя
-save_edit_btn = driver.find_element_by_id("btnSave")
-save_edit_btn.click()
-# Выбор и проверка радиокнопки противоположного пола
-gender_male.click()
-gender_male_checked = gender_male.get_attribute("checked")
-if gender_male_checked is not None:
-    print("Чекбокс отмечен")
-else:
-    print("Чекбокс НЕ отмечен")
-# Выбор и проверка (самая последняя страна)
-select = Select(nationality_selector)
-select.select_by_value("193")
-nationality_selector_zimbabwean = nationality_selector.get_attribute("value")
-if nationality_selector_zimbabwean == "193":
-    print("Выбрана последняя страна в списке")
-else:
-    print("Выбрана НЕ последняя страна в списке")
-# Возвращаем изменения и сохраненяем
-gender_female = driver.find_element_by_id("personal_optGender_1")
-gender_female.click()
-select.select_by_value("0")
-save_edit_btn.click()
+    print("Аддрес не совпадает, фактический:", current_page)
+    print("Ожидаемый:", expected_address)
+time.sleep(5)
 driver.quit()
