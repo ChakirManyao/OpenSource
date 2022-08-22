@@ -24,16 +24,16 @@ time.sleep(1)
 gender_male = driver.find_element_by_id("personal_optGender_1")
 gender_male_disabled = gender_male.get_attribute("disabled")
 if gender_male_disabled is not None:
-print("Селектор недоступен для выбора")
+    print("Селектор недоступен для выбора")
 else:
-print("Селектор доступен для выбора")
+    print("Селектор доступен для выбора")
 # Проверка недоступности селектора nationality сотрудника
 nationality_selector = driver.find_element_by_id("personal_cmbNation")
 nationality_selector_disabled = nationality_selector.get_attribute("disabled")
 if nationality_selector_disabled is not None:
-print("Селектор недоступен для выбора")
+    print("Селектор недоступен для выбора")
 else:
-print("Селектор доступен для выбора")
+    print("Селектор доступен для выбора")
 # Переход в режим редактирования пользователя
 save_edit_btn = driver.find_element_by_id("btnSave")
 save_edit_btn.click()
@@ -41,17 +41,17 @@ save_edit_btn.click()
 gender_male.click()
 gender_male_checked = gender_male.get_attribute("checked")
 if gender_male_checked is not None:
-print("Чекбокс отмечен")
+    print("Чекбокс отмечен")
 else:
-print("Чекбокс НЕ отмечен")
+    print("Чекбокс НЕ отмечен")
 # Выбор и проверка что в селекторе nationality выбрана самая последняя страна
 select = Select(nationality_selector)
 select.select_by_value("193")
 nationality_selector_zimbabwean = nationality_selector.get_attribute("value")
 if nationality_selector_zimbabwean == "193":
-print("Выбрана последняя страна в списке")
+    print("Выбрана последняя страна в списке")
 else:
-print("Выбрана НЕ последняя страна в списке")
+    print("Выбрана НЕ последняя страна в списке")
 # Возврат изменений и сохранение
 gender_female = driver.find_element_by_id("personal_optGender_2")
 gender_female.click()
@@ -112,10 +112,10 @@ assert current_page == "http://demo.automationtesting.in/WebTable.html"
 # Расширенная проверка адреса
 expected_address = "http://demo.automationtesting.in/WebTable.html"
 if current_page == "http://demo.automationtesting.in/WebTable.html": # или == expected_address
-print("Адрес страницы совпадает")
+    print("Адрес страницы совпадает")
 else:
-print("Аддрес не совпадает, фактический:", current_page)
-print("Ожидаемый:", expected_address)
+    print("Аддрес не совпадает, фактический:", current_page)
+    print("Ожидаемый:", expected_address)
 
 driver.quit()
 
@@ -140,10 +140,10 @@ alert_expected_text = "I am an alert box!"
 alert_text = alert.text
 # Расширенная проверка содержимого текста в окне alert
 if alert_text == alert_expected_text:
-print("Текст совпадает:", alert_text)
+    print("Текст совпадает:", alert_text)
 else:
-print("Фактический текст:", alert_text)
-print("Ожидаемый текст:", alert_expected_text)
+    print("Фактический текст:", alert_text)
+    print("Ожидаемый текст:", alert_expected_text)
 alert.accept()
 # Получение адреса текущей ссылки
 current_url = driver.current_url
@@ -262,9 +262,9 @@ close_alert_message.click()
 upload_btn = driver.find_element_by_css_selector(".file-input .fileinput-upload")
 upload_btn_disabled = upload_btn.get_attribute("disabled")
 if upload_btn_disabled is not None:
-print("Кнопка заблокирована")
+    print("Кнопка заблокирована")
 else:
-print("Кнопка доступна для нажатия")
+    print("Кнопка доступна для нажатия")
 
 driver.quit()
 
